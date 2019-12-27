@@ -19,8 +19,16 @@ queueSvc.createQueueIfNotExists('fakesecurityalarmqueue', function(error, result
 var retryOperations = new azure.ExponentialRetryPolicyFilter();
 var queueSvc = azure.createQueueService().withFilter(retryOperations);
 
-queueSvc.createMessage('fakesecurityalarmqueue', "Hello world!", function(error, results, response){
+var message_sent = "Hello world from nodejs runnning locally";
+queueSvc.createMessage('fakesecurityalarmqueue', message_sent, function(error, results, response){
     if(!error){
-        console.log("message sent!");
+        console.log(`sent: ${message_sent}`);
+    }
+  });
+
+  queueSvc.peekMessages('fakesecurityalarmqueue', function(error, results, response){
+    if(!error){
+      var message_received = results[0].messageText;
+      console.log(`received: ${message_received}`);
     }
   });
