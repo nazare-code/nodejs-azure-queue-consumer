@@ -8,23 +8,19 @@ var azure = require('azure-storage');
 
 var env = require('./.private/env_vars');
 
-// var queueSvc = azure.createQueueService();
+var queueSvc = azure.createQueueService();
 
-// queueSvc.createQueueIfNotExists('myqueue', function(error, results, response){
-//     if(!error){
-//       // Queue created or exists
-//     }
-//   });
+queueSvc.createQueueIfNotExists('fakesecurityalarmqueue', function(error, results, response){
+    if(!error){
+      // Queue created or exists
+    }
+  });
 
-// var retryOperations = new azure.ExponentialRetryPolicyFilter();
-// var queueSvc = azure.createQueueService().withFilter(retryOperations);
+var retryOperations = new azure.ExponentialRetryPolicyFilter();
+var queueSvc = azure.createQueueService().withFilter(retryOperations);
 
-// queueSvc.createMessage('myqueue', "Hello world!", function(error, results, response){
-//     if(!error){
-//       // Message inserted
-//     }
-//   });
-
-console.log(process.env.AZURE_STORAGE_ACCOUNT);
-console.log(process.env.AZURE_STORAGE_ACCESS_KEY);
-console.log(process.env.AZURE_STORAGE_CONNECTION_STRING);
+queueSvc.createMessage('fakesecurityalarmqueue', "Hello world!", function(error, results, response){
+    if(!error){
+        console.log("message sent!");
+    }
+  });
